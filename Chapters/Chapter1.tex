@@ -1,0 +1,116 @@
+\documentclass[12pt,a4paper]{report}
+\begin{comment}
+\usepackage{amsmath,amsthm,amssymb,mathrsfs,graphicx}
+\allowdisplaybreaks
+
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{corollary}{Corollary}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{remark}{Remark}
+\newtheorem{algorithm}{Algorithm}
+
+\renewcommand{\baselinestretch}{1.5}
+\end{comment}
+\begin{document}
+
+\thispagestyle{empty} {\LARGE\bf
+\begin{center}
+Tracking Progress of Groebner Walks.\\[30mm] Jack Rhys-Burgess \\ student no. 906545\\ Supervisor: Dr. Yue Ren\\[55mm] Submitted to Swansea University  in fulfilment of the requirements for the Degree of Master of Sciences\\[5mm]Swansea University \\2020
+\end{center}
+}
+%------------------------------------------------------------------------------------
+\newpage
+\begin{center} {\large \bf Acknowledgements}\end{center}
+I am hugely grateful to my supervisor Yue Ren for his continued help and advice throughout the writing of this thesis. I am also grateful to friends and family throughout for the continued support and motivation.
+
+\setcounter{page}{1}
+\pagenumbering{roman}
+
+\newpage
+\begin{center} {\large \bf Abstract}\end{center}
+
+The Groebner Walk is an algorithm that converts between Groebner bases for different term orders. It is based on working with the Groebner fan of polynomial ideals and requires tracking a line between cones representing initial and target term orders. In this thesis we recall various Groebner Walk strategies (e.g. Straight line, Facet Oriented, Generic Groebner) and explore the distance measuring function for Groebner Walks. We attempt to find suitable distance functions and implement these along with the Groebner Walk strategies. We report on the performance of the different Groebner Walk strategies and compare performances to Buchberger's algorithm.
+\vspace{5mm}
+
+
+\noindent{\bf Key Words}:  Groebner bases, Groebner walk.   
+
+\tableofcontents
+
+
+
+
+
+\chapter{Introduction}
+\setcounter{page}{1}
+\pagenumbering{arabic}
+
+%%%%%%From Yue Ren to Everyone:  03:09 PM
+%Must haves:
+%- Motivation
+%- Content
+%- Results
+%(1) Motivation:
+%- general motivation for Groebner bases
+%- mention that GB under degree orderings are easy to compute
+%- mention that GB under lex orderings are especially useful
+%(e.g. able to compute projections)
+%- Groebner walk is an algorithm that transforms a GB w.r.t. one ordering to a GB w.r.t. another
+%Better Motivation:
+%- general motivation for Groebner bases
+%- mention that GB depend on a monomial ordering
+%- mention that Groebner walk is an algorithm that transforms a GB w.r.t. one ordering to a GB w.r.t. another 
+%- this is important because there are GB that are easy to compute (deg ordering)
+%- and there are GB that are hard to compute, but particularly useful (lex ordering)
+%(2) Content:
+%- what is being done in this thesis
+%- structure of this thesis
+%(2.1) what is being done in this thesis:
+%- revisiting generic Groebner Walk
+%- recall various Groebner Walk strategies: straight line, generic, facet
+%- study their performance on randomly generated ideals
+%- implementation in Singular
+%From Yue Ren to Everyone:  03:17 PM
+%(2.2) Results in this thesis:
+%- facet oriented walks are infeasible, because it takes longer to compute the facets than it is to make the flip
+%addition to (2.1): 
+%- study various strategies to measure the progress of a Groebner walk
+%(list the names of the strategies + half a sentence what they are)
+%back to (2.2)
+%- for straight line methods: you cannot have both determinism or steady progress 
+%(1,1) (2,1) (3,1) ... (D,1)
+%shifted parabola: infinitesimal steps
+%parabola: steady steps, but no clue when we are done
+%instead of "for straight line methods" better: "in general it seems"
+%(3) Structure of thesis:
+%In Chapter 2, .... . In Chapter 3, .... 
+
+%%-----------------------------------------------------------------------------------------------------------------------
+
+%%1. general motivation for Groebner bases?
+The general motivation for studying Groebner bases is that they have nice properties (elimination, canonicality and syzygy), can be used and applied to solve dozens of difficult problems and Groebner bases have an algorithm, Buchberger's algorithm, we can use to construct them. The difficulty of constructing these Groebner bases depends on the monomial or term order $<$ we use. The Groebner walk is an algorithm that transforms a Groebner basis with respect to one term ordering $<_{1}$ to a Groebner basis with respect to another term ordering $<_{2}$. This transformation is important since there exists easy to compute term orderings (e.g. degree ordering) and there also exists hard to compute term orderings that are particularly useful (e.g. lexicographic ordering). Hence the motivation of using the Groebner walk is to calculate Groebner bases with respect to hard but useful term orderings, especially in situations where applying Buchberger's algorithm would be an infeasible prospect.
+
+%%2. Content
+%%2.1 What is being done in thesis
+We are revisiting the Generic Groebner walk and recalling various Groebner walk strategies such as: Straight Line walk (which walks in a explicit straight line through the Groebner fan), Facet Oriented walk  (which walks in a directed fashion emphasised by the facets making up the Groebner fan) and Generic Groebner walk (which improves the Straight line walk, replacing an explicit line with a more formal fuzzy line). We study their performances on randomly generated ideals and we compare both between the Groebner walk strategies as well as Buchberger's algorithm. We also study various strategies to create a ``distance measuring function'' to measure progress of a Groebner walk. To perform these studies, we will implement both the walks and the distance measuring functions into Singular \cite{DGPS}.
+
+%%2.2 Results of this thesis
+The results of our experiments have determined a few important things: Facet Oriented walks are an infeasible variant since computing the facets takes significantly longer than the rest of the walking algorithm. There is a suitable distance measuring function that can be implemented however the infeasibility of the Facet Oriented walk renders this little more than a curiosity. Straight line methods are feasible, however we were not able to fully implement a distance measuring function with all our desired properties. In general it seems that the distance measuring function can either have a definitive, stopping point or the progress shown can have steady, monotonically decreasing steps, but not both. 
+
+%%3 Structure of the thesis
+In Chapter 2 we introduce the groundwork necessary for the rest of the thesis. To do this we start with Convex Geometry to state some basic definitions such as polyhedral complexes and fans as well as stating some useful theorems related to these concepts. The other chapter relates to Groebner Bases themselves, and we briefly explore important definitions such as term orderings and initial terms, partly to go over the notation we will use throughout but also to state more useful theorems.
+
+In Chapter 3 we begin to take the two strands of Convex Geometry and Groebner Bases and tie them together to define the Groeber fan of a polynomial ideal. With that in hand we then start to explore the Groebner Walk and variations on it. We begin by defining all the algorithmic components common to all Groebner Walks, the Witness, Lifting and Flipping algorithms. We then use this to define and explore several different variations on the Groebner Walk, the Straight Line Walk, the Facet Oriented Walk and the Generic Groebner Walk.
+
+In Chapter 4 we define the ``distance measuring function'' for the Groebner Walk and explore different ways of applying this to our variety of Groebner Walk explored beforehand. We state what properties we would like the distance measuring function to have, and we attempt to find a way of measuring distance that satisfies all these properties, with varying examples.
+
+Appendix includes performance testing results on random ideals, starting in degree ordering and ending with lexicographic ordering. We compare performance both between the Groebner Walk variations as well as Singular's inbuilt version of Buchberger's Algorithm.
+
+Implementation of Groebner Walks in Singular can be found at \cite{GroebnerCode}.
+
+
+\end{document}

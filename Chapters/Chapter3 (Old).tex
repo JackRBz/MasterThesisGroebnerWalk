@@ -1,0 +1,188 @@
+\documentclass[12pt,a4paper]{report}
+\begin{comment}
+\usepackage{amsmath,amsthm,amssymb,mathrsfs,graphicx}
+\allowdisplaybreaks
+
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{corollary}{Corollary}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{remark}{Remark}
+\newtheorem{algorithm}{Algorithm}
+
+\renewcommand{\baselinestretch}{1.5}
+\end{comment}
+\begin{document}
+
+%%To do-----------------------------------------------------------------------------------------------------------------
+%Read through
+%%Add examples to chapter 3.1
+%%Delete chapter 3.2
+%%Fix any errors?
+%%Delete comments as I go/progress through on fixes
+%%END-------------------------------------------------------------------------------------------------------------------
+
+\chapter{Groebner fan of a polynomial ideal}
+In this next chapter, we define the Groebner fan of a polynomial ideal. We will let $R = K[x_{1}, \cdots, x_{n}]$ be the polynomial ring, with n variables over a field K and let $I \subseteq R$ be an ideal.
+
+\section{Definitions}
+Given our ideal $I \subseteq R$, a natural equivalence relation on $\mathbb{R}^{n}$ is induced by taking initial ideals:
+
+\begin{equation*}
+    u \sim v \Longleftrightarrow \initial_{u} (I) = \initial_{v} (I)
+\end{equation*}
+We also introduce notation for closure of equivalence classes:
+
+\begin{equation*}
+    C_{<} (I) = \overline{ \{u \in \mathbb{R}^{n} : \initial_{u} = \initial_{<} (I)} \}
+\end{equation*}
+\begin{equation*}
+    C_{v} (I) = \overline{ \{u \in \mathbb{R}^{n} : \initial_{u} = \initial_{v} (I)} \}
+\end{equation*}
+
+The closed set $C_{0} (I)$ is known as the \emph{homogeneity space} of I, and we define $HomogSp(I) := dim(C_{0} (I))$.
+
+\begin{remark}
+It follows from Lemma 2.2.6 that any cone $C_{v} (I)$ is invariant under translation by any vector $w \in C_{0} (I)$.
+\end{remark}
+
+
+\begin{remark}
+It is known that, given a fixed ideal I, there are only finitely many sets $C_{<} (I)$, and these sets cover $\mathbb{R} ^{n}$. Secondly, every initial ideal $\initial_{<} (I)$ is of the form $\initial_{w} (I)$ for some $w \in \mathbb{R}_{>} ^{n}$. This all follows from Lemma 2.2.9, Thm 2.2.10 and Lemma 3.1.9 (from \cite{AndersPHD}).
+
+The ultimate consequence is that every $C_{<} (I)$ is of the form $C_{w} (I)$.
+\end{remark}
+
+
+\begin{example}
+Let $I = \langle x + 2, y - 2 \rangle$. This ideal has five different initial ideals: $\langle x+2, y-2 \rangle, \langle x,y \rangle, \langle x,y-2 \rangle, \langle x-2,y \rangle$ and $\langle 1 \rangle$. Given choices $u = (6, -3), v = (-3, 6)$, we have $in_{u} (I) = \langle 1 \rangle$ and $in_{v} (I) = \langle 1 \rangle$, hence $in_{u} (I) = in_{v} (I)$. On the other hand, we also have $in_{\frac{1}{3} (u + v)} (I) = \langle x, y \rangle$.
+\end{example}
+
+\begin{proposition}
+Let $<$ be a term order and $v \in C_{<} (I)$. For $u \in \mathbb{R}^{n}$
+\begin{equation*}
+  \initial_{u}(I) = \initial_{v}(I) \Longleftrightarrow \forall g \in G_{<} (I), \initial_{u}(g) = \initial_{v}(g).
+\end{equation*}
+\end{proposition}
+
+The proposition we have just proven describes equivalence classes in terms of linear equations and inequalities. Given a fixed $<$ and $v$, we get that the closure of the equivalence class $C_{v}(I)$, is a polyhedral cone since, for each $g \in G_{<}(I)$, this introduces the equation $\initial_{u}(g) = \initial_{v}(g)$, which is equivalent to have $u$ satisfy a set of linear equations and strict linear inequalities. The closure is obtained by making the strict inequalities not strict. Under Proposition 3.1.4's assumptions, we can also rewrite this:
+\begin{equation*}
+    u \in C_{v}(I) \Longleftrightarrow \forall g \in G_{<}(I), \initial_{v}(\initial_{u}(g)) = \initial_{v}(g).
+\end{equation*}
+
+Not all equivalence classes are convex. However, given an arbitrary $v$, $C_{v} (I)$ is always a convex polyhedral cone if we add the condition that it contains a strictly positive vector. We can show this by showing that there must exist a vector $p \in \mathbb{{R}^{n}} _{\geq 0}$, with $\initial_{p} (I) = \initial_{v} (I)$ and, by Lemma 3.1.14 (proved later on),$p \in C_{{<}_{p}} (I)$ for any $<$. Hence we can confirm the equivalence class of $v$ is of the form required in Proposition 3.1.4.
+
+
+\begin{definition}
+The \emph{Groebner fan} of an ideal $I \subseteq R$ is the set of the closures of all equivalence classes intersecting the positive orthant together with their proper faces. The cones in a Groebner fan are called Groebner cones.  
+\end{definition}
+
+This is a slight variation on other definitions appearing in other literature. The reason for this change is that it gives well-defined and "nice" (in the sense that all cones in this fan are closures of equivalence classes) fans in the homogeneous and non-homogeneous case simultaneously. We note that it is not immediately clear that a Groebner fan is a fan (polyhedral complex consisting of cones). 
+
+\begin{itemize}
+    \item The support of the Groebner fan of I is called the Groebner region of I.
+    \item We define the restricted Groebner fan of an ideal to be the common refinement of the Groebner fan and the faces of the non-negative orthant.
+    \item The support of the restricted Groebner fan is $R_{\geq} ^{n}$.
+\end{itemize}
+
+
+%%There is essentially no pool of examples about comparing groebner fan vs. restricted groebner fan
+
+\begin{example}[\cite{AndersPHD}, Example 3.1.7]
+The Groebner fan of the principal ideal $\langle x^4 + x^4 y - x^3 y + x^2 y^2 + y \rangle$ consists of the following: 1 zero-dimensional cone, 3 one-dimensional cones and 2 two-dimensional cones. The same is also true for the restricted Groebner fan. However, it is important to note that this restricted Groebner fan, 1 cone in both the one-dimensional cone and two-dimensional cone are not closures of equivalence classes of equivalence relation.
+\end{example}
+
+\begin{example}[\cite{BSturmfelz}, Example 3.9]
+
+Consider the ideal $I = \langle a^5 - 1 + c^2 + b^3, b^2 - 1 + c + a^2, c^3 - 1 + b^5 + a^6 \rangle \subseteq \mathbb{Q} [a,b,c] $. The Groebner fan of I has 360 full-dimensional cones and the Groebner region is $\mathbb{R}_{\geq 0}^{3}$. This means that the restricted Groebner fan equals the Groebner fan. 
+\end{example}
+
+We will skip over the lengthy proof involved and instead take it for granted that a Groebner fan is indeed a fan. The proof can be found at /cite{AndersPHD}, Section 3.1.1.
+
+%--------------------------------
+We will now state a couple other helpful theorems.
+
+
+\begin{lemma}
+Let $<$ be a term order. If $v \in \mathbb{R}_{geq}^{n}, then v \in C_{{<}_{v}} (I)$.
+\end{lemma}
+
+
+\begin{proof}
+We can use Corollary 3.1.10 (\cite{AndersPHD}) and it immediately follows since $\initial_{{<}_{v}} (\initial_{v} (g)) = \initial_{{<}_{v}} (g)$ for all $g \in G_{{<}_{v}} (I)$.
+\end{proof}
+
+\begin{corollary}
+If < is a term order and $v \in \mathbb{R}_{\geq 0} ^{n}$ then
+\begin{equation*}
+    \initial_{{<}_{v}} (I) = \initial_{<} (\initial_{v} (I)).
+\end{equation*}
+\end{corollary}
+
+\begin{proof}
+We can use the previous theorem to show that $v \in C_{{<}_{v}} (I)$. We can also use Lemma 3.1.12 from (\cite{AndersPHD}) to show that $\initial_{{<}_{v}} (I) = \initial_{{<}_{v}} (\initial_{v} (I))$. The Groebner basis $G_{{<}_{v}} (\initial_{v}(I))$ is v-homogeneous, therefore also a Groebner basis with respect to $<$ and with the same initial terms which generate the (initial) ideal $\initial_{{<}_{v}} (\initial_{v} (I)) = \initial_{<} (\initial_{v} (I))$.
+\end{proof}
+
+The condition of $v \in \mathbb{R}_{\geq 0}^{n}$, in the previous Corollary and Lemma, can be replaced with the condition that the ideal $I$ is homogeneous.
+
+\begin{proposition}
+The relative interior of a cone in the Groebner fan is an equivalence class (with respect to $u$ is similar to $u^{'} \Longleftrightarrow \initial_{u} (I) = \initial_{u'} (I)$).
+\end{proposition}
+
+\begin{proof}
+We will take the proof from \cite{AndersPHD}.
+\end{proof}
+
+We still need to show that the intersection of two cones in the Groebner fan is a face of both cones, and to do this we need a few observations.
+
+\begin{corollary}
+Let C be a cone in the Groebner fan. If $v \in C$ then for $u \in \mathbb{R}^{n}$,
+\begin{equation*}
+    \initial_{u} (I) = \initial_{v} (I) \Rightarrow u \in C.
+\end{equation*}
+\end{corollary}
+
+\begin{proof}
+We know that the vector v is in the relative interior of some face of C, and we can also say that this face is also in the Groebner fan. We can use the Proposition above to say that $u$ is in the relative interior of the same face, hence, also in C.
+\end{proof}
+
+From Remark 3.1.2, there are only finitely many initial ideals given by term orders, hence, only finitely many reduced Groebner bases of I. Therefore, it follows that there can only be finitely many equivalence classes.
+
+\begin{proposition}
+Let $C_{1}$ and $C_{2}$ be two cones in the Groebner fan of I. Then the intersection $C_{1} \cup C_{2}$ is a face of $C_{1}$.
+\end{proposition}
+
+\begin{proof}
+We will take the proof from \cite{AndersPHD}.
+\end{proof}
+
+\begin{proposition}
+Let $I \subseteq K[x_{1}, \ldots, x_{n}]$ be an ideal and $u, v \in \mathbb{R}^{n}$. Furthermore, suppose that I is homogeneous or $u \in \mathbb{R}_{> 0} ^{n}$. Then for $\epsilon > 0$ sufficiently small:
+\begin{equation*}
+    \initial_{u+ \epsilon v} (I) = \initial_{v} (\initial_{u} (I)).
+\end{equation*}
+\end{proposition}
+
+%Rework this proof if I have time!
+\begin{proof}
+Fix some term order <. Note that for $\epsilon > 0$, sufficiently small, we have $u + \epsilon v \in C_({{<}_{v}})_{u} (I)$. This follows from Corollary 3.1.10 (\cite{AndersPHD}, with an argument similar to proof of Lemma 2.2.9. This proposition now follows from Corollary 3.1.13:
+\begin{equation*}
+    \initial_{u + \epsilon v} (I) = \langle \initial_{u + \epsilon v} (g): g \in G_({<}_{v})_{u} (I) \rangle = \langle \initial_{v} (\initial_{u} (g)): g \in G_({<}_{v})_{u} (I) \rangle
+\end{equation*}
+\begin{equation*}
+    = \langle \initial_{v} (g): g \in G_{{<}_{v}} (\initial_{u} (I)) \rangle = \initial_{v} (\initial_{u} (I)).
+\end{equation*}
+The second equality holds for $\epsilon > 0$ sufficiently small, since $G_({<}_{v})_{u} (I)$ is finite.
+\end{proof}
+
+\begin{remark}
+It follows that $dim(C_{u} (I)) = HomogSp(\initial_{u} (I))$ under same assumptions. We can show this by observing that the set of v's keeping the right hand side of the equation in Prop 3.1.20 equal to $\initial_{u} (I)$ is $C_{0} (\initial_{u} (I))$. On left hand side, the vectors equal to $\initial_{v} (I)$ generate the span of $C_{w} (I)$.
+\end{remark}
+%%------------------------------
+%%Chapter 3 and Chapter 4 will need to merge
+%%Separate Chapter 5 from Chapter4.tex
+
+\end{document}

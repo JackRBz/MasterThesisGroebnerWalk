@@ -1,0 +1,121 @@
+\documentclass[12pt,a4paper]{report}
+\begin{comment}
+\usepackage{amsmath,amsthm,amssymb,mathrsfs,graphicx,tikz,geometry}
+\allowdisplaybreaks
+
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{corollary}{Corollary}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{remark}{Remark}
+\newtheorem{algorithm}{Algorithm}
+
+\renewcommand{\baselinestretch}{1.5}
+\end{comment}
+\begin{document}
+
+\section{Introduction stuff}
+
+Groebner bases always depend on different monomial/term orderings. So why do we care about different monomial/term orderings, and not just stick to one specific ordering? The reason for this is that, broadly, there are two different types of orderings.
+\begin{list}
+    \item Orderings that are fast to calculate. An example of this ordering is Graded Reverse Lexicographic (GrevLex) ordering.
+    \item Orderings that are useful/contain lots of information. An example of this ordering is Lexicographic (Lex) ordering.
+\end{list}
+There is a relationship between these two orderings. Since life is not fair, there is no ordering that exists that is both fast to calculate and contains lots of information. We could try to directly apply Buchberger's algorithm to the computationally heavy ordering, and accept the computational cost of doing it in this fashion.
+
+The Groebner Walk, however, tries to avoid having to calculate this "difficult" ordering directly. Instead, the aim is to calculate a Groebner Basis with respect to an "easy" ordering, then applying basis conversion to approach the "difficult" ordering. Ideally, the starting cone is close to our target cone, and hence the time needed to perform the walk is significantly less compared to a direct calculation.
+
+
+
+\section{Ideas for Diagrams/Images}
+Mainly use in conjunction with examples??
+
+Chapter 1
+\begin{list}
+    \item PLACEHOLDER, I think none? 
+\end{list}
+
+Chapter 2
+\begin{list}
+    \item PLACEHOLDER
+    \item Examples of cones?
+    \item normal cone?
+    \item 
+\end{list}
+
+Chapter 3
+\begin{list}
+    \item PLACEHOLDER
+    \item Groebner fan of an ideal (example)?
+    \item Grobner cone/Restricted Groebner cone/Newton polytope examples?
+    \item intersection of two cones in Groebner fan (C1 cap C2 is face of C1)?
+    \item Reverse search algorithm example?
+    \item Reverse search property example?
+\end{list}
+
+Chapter 4 
+\begin{list}
+    \item PLACEHOLDER
+    \item Example of a Groebner Walk?
+    \item Example of long thin cone, where barycentric method increases distance.
+    \item L1 norm distance.
+    \item Great circle distance?
+\end{list}
+
+\section{Diagram time?}
+Tikz time
+
+\node (A) [polygon=5, thick] {};
+\draw [blue,mirror polygon=1];
+\draw [orange,mirror polygon=2];
+\draw [red,mirror polygon=3];
+\draw [cyan,mirror polygon=4];
+\draw [purple,mirror polygon=5];
+
+
+%%Explain difference between order and preorder?
+Recall that a monomial ordering is a total ordering (antisymmetric, transitive and connexive). A preordering is a weaker form of ordering that does not have the connexive property, only being antisymmetric and transitive. The connexive property states for two elements $a, b$ that either $a \leqslant b$ or $b \leqslant a$. A preordering doesn't have this property and so we cannot "totally" order $a$ and $b$. For example, given $a \leqslant b$, we cannot infer from this statement that $b \leqslant a$ under our facet preordering.
+
+%%Why change notation between ordering and preordering?
+Due to this, it is important to distinguish whether or not the ordering we are working in is either a total ordering or a preordering that is weaker at ordering. We will throughout use $<$ to refer to a total ordering and $\prec$ to refer to a preordering. 
+%%And we need to go through and replace stuff!
+
+%%Diagrams??
+
+%%Change of in_{\omega} (g) notation to in^{??} (g)
+This notation has been changed from CiteGenericGroebnerWalkPaper
+
+
+
+%%%%%%%%%%%What is /partial (G), where did the def'n come from?
+%From generic groebner walk
+%pg8: /partial(G) = /cup f /in G /partial(f)
+%what is partial (f)?
+%defined the 'natural way' cf. /partial _{/prec} (f)
+%here /prec is "<" in our notation
+%in 2.3 (groebner fan)
+% /partial_{/prec} (f) = \{u - u' | u' \in supp(f) \ \{u \} \} \in \mathbb Z^{n}
+
+%supp(f) = \{v \in \mathbb N^{n} | a_{v} \neq 0}
+
+%%%%%%%%%%%%
+
+
+%%
+%Survey of different Groebner Walks?
+%What is implemented in Singular?
+
+\begin{itemize}
+    \item FGLM algorithm (which only applies to zero dimensional ideals)
+    \item Fractal Walk
+    \item Faugère's F4 and F5 algorithm (Fgb library?)
+    \item Quoc-Nam Tran's algorithm? (http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.90.9646&rep=rep1&type=pdf)
+    \item ???
+\end{itemize}
+
+
+
+\end{document}

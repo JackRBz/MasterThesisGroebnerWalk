@@ -1,0 +1,39 @@
+\documentclass[12pt,a4paper]{report}
+\usepackage{amsmath,amsthm,amssymb,mathrsfs,graphicx,comment,blindtext,subfiles,tikz,enumitem}
+\usepackage[noend]{algorithmic} %algorithmic environment
+\usetikzlibrary{shapes.geometric,calc}
+\allowdisplaybreaks
+
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{algorithm}[theorem]{Algorithm}
+
+\renewcommand{\baselinestretch}{1.5}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+
+%% Replace init/inif with \initial or "in"
+\DeclareMathOperator{\initial}{in}
+
+\begin{document}
+
+\subfile{Chapters/Chapter1}
+
+\subfile{Chapters/Chapter2}
+
+\subfile{Chapters/Chapter3 (New)}
+
+%%This will be replaced with Chapter4Restructured!
+\subfile{Chapters/Chapter4Restructuring}
+
+\subfile{Chapters/Appendix}
+
+\subfile{Chapters/Bibliography}
+
+\end{document}

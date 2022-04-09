@@ -1,0 +1,465 @@
+\documentclass[12pt,a4paper]{report}
+\begin{comment}
+\usepackage{amsmath,amsthm,amssymb,mathrsfs,graphicx}
+\allowdisplaybreaks
+
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{corollary}{Corollary}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{remark}{Remark}
+\newtheorem{algorithm}{Algorithm}
+
+\renewcommand{\baselinestretch}{1.5}
+\end{comment}
+\begin{document}
+
+
+\chapter{Groebner fan of a polynomial ideal}
+In this chapter, we define the Groebner fan of a polynomial ideal. We will let $R = K[x_{1}, \cdots, x_{n}]$ be the polynomial ring, with n variables over a field K and let $I \subseteq R$ be an ideal.
+
+\section{Definitions}
+Given our ideal $I \subseteq R$, a natural equivalence relation on $\mathbb{R}^{n}$ is induced by taking initial ideals:
+
+\begin{equation*}
+    u \sim v \Longleftrightarrow \initial_{u} (I) = \initial_{v} (I)
+\end{equation*}
+We also introduce notation for closure of equivalence classes:
+
+\begin{equation*}
+    C_{<} (I) = \overline{ \{u \in \mathbb{R}^{n} : \initial_{u} = \initial_{<} (I)} \}
+\end{equation*}
+\begin{equation*}
+    C_{v} (I) = \overline{ \{u \in \mathbb{R}^{n} : \initial_{u} = \initial_{v} (I)} \}
+\end{equation*}
+
+\begin{remark}
+It follows from Lemma 2.2.6 that any cone $C_{v} (I)$ is invariant under translation by any vector $w \in C_{0} (I)$.
+\end{remark}
+
+
+\begin{remark}
+It is known that, given a fixed ideal I, there are only finitely many sets $C_{<} (I)$, and these sets cover $\mathbb{R} ^{n}$. Secondly, every initial ideal $\initial_{<} (I)$ is of the form $\initial_{w} (I)$ for some $w \in \mathbb{R}_{>} ^{n}$. This all follows from Lemma 2.2.9, Thm 2.2.10 and \cite[Lemma 3.1.9]{AndersPHD}.
+
+The ultimate consequence is that every $C_{<} (I)$ is of the form $C_{w} (I)$.
+\end{remark}
+
+
+\begin{example}
+Let $I = \langle x + 2, y - 2 \rangle$. This ideal has five different initial ideals: $\langle x+2, y-2 \rangle, \langle x,y \rangle, \langle x,y-2 \rangle, \langle x-2,y \rangle$ and $\langle 1 \rangle$. Given choices $u = (6, -3), v = (-3, 6)$, we have $in_{u} (I) = \langle 1 \rangle$ and $in_{v} (I) = \langle 1 \rangle$, hence $in_{u} (I) = in_{v} (I)$. On the other hand, we also have $in_{\frac{1}{3} (u + v)} (I) = \langle x, y \rangle$.
+\end{example}
+
+\begin{proposition}
+Let $<$ be a term order and $v \in C_{<} (I)$. For $u \in \mathbb{R}^{n}$
+\begin{equation*}
+  \initial_{u}(I) = \initial_{v}(I) \Longleftrightarrow \forall g \in G_{<} (I): \initial_{u}(g) = \initial_{v}(g).
+\end{equation*}
+\end{proposition}
+
+This proposition describes equivalence classes in terms of linear equations and inequalities. Given a fixed $<$ and $v$, we get that the closure of the equivalence class $C_{v}(I)$, is a polyhedral cone since, for each $g \in G_{<}(I)$, this introduces the equation $\initial_{u}(g) = \initial_{v}(g)$, which is equivalent to have $u$ satisfy a set of linear equations and strict linear inequalities. The closure is obtained by making the strict inequalities not strict. Under Proposition 3.1.4's assumptions, we can also rewrite this:
+\begin{equation*}
+    u \in C_{v}(I) \Longleftrightarrow \forall g \in G_{<}(I): \initial_{v}(\initial_{u}(g)) = \initial_{v}(g).
+\end{equation*}
+
+Not all equivalence classes are convex. However, given an arbitrary $v$, $C_{v} (I)$ is always a convex polyhedral cone if we add the condition that it contains a strictly positive vector. We can show this by showing that there must exist a vector $p \in \mathbb R^{n} _{\geq 0}$, with $\initial_{p} (I) = \initial_{v} (I)$ and, by Lemma 3.1.14 (proved later on), $p \in C_{{<}_{p}} (I)$ for any $<$. Hence we can confirm the equivalence class of $v$ is of the form required in Proposition 3.1.4.
+
+
+\begin{definition}
+The \emph{Groebner fan} of an ideal $I \subseteq R$ is the set of the closures of all equivalence classes intersecting the positive orthant together with their proper faces. The cones in a Groebner fan are called Groebner cones.  
+\end{definition}
+
+This is a slight variation on other definitions appearing in other literature. The reason for this change is that it gives well-defined and "nice" (in the sense that all cones in this fan are closures of equivalence classes) fans in the homogeneous and non-homogeneous case simultaneously. We note that it is not immediately clear that a Groebner fan is a fan (polyhedral complex consisting of cones). 
+
+\begin{itemize}
+    \item The support of the Groebner fan of I is called the Groebner region of I.
+    \item We define the restricted Groebner fan of an ideal to be the common refinement of the Groebner fan and the faces of the non-negative orthant.
+    \item The support of the restricted Groebner fan is $\mathbb R_{\geq 0} ^{n}$.
+\end{itemize}
+
+
+%%There is essentially no pool of examples about comparing groebner fan vs. restricted groebner fan
+
+\begin{example}[\cite{AndersPHD}, Example 3.1.7]
+The Groebner fan of the principal ideal $\langle x^4 + x^4 y - x^3 y + x^2 y^2 + y \rangle$ consists of the following: 1 zero-dimensional cone, 3 one-dimensional cones and 2 two-dimensional cones. The same is also true for the restricted Groebner fan. However, it is important to note that this restricted Groebner fan, 1 cone in both the one-dimensional cone and two-dimensional cone are not closures of equivalence classes of equivalence relation.
+\end{example}
+
+%%Show picture of this??
+
+\begin{example}[\cite{BSturmfelz}, Example 3.9]
+
+Consider the ideal $I = \langle a^5 - 1 + c^2 + b^3, b^2 - 1 + c + a^2, c^3 - 1 + b^5 + a^6 \rangle \subseteq \mathbb{Q} [a,b,c] $. The Groebner fan of I has 360 full-dimensional cones and the Groebner region is $\mathbb{R}_{\geq 0}^{3}$. This means that the restricted Groebner fan equals the Groebner fan. 
+\end{example}
+
+We will skip over the lengthy proof involved and instead take it for granted that a Groebner fan is indeed a fan. The proof can be found at \cite{AndersPHD}, Section 3.1.1.
+
+%--------------------------------
+We will now state a couple other helpful theorems.
+
+
+\begin{lemma}
+Let $<$ be a term order. If $v \in \mathbb{R}_{\geq}^{n}, \text{then} \: v \in C_{{<}_{v}} (I)$.
+\end{lemma}
+
+
+\begin{proof}
+We can use \cite[Corollary 3.1.10]{AndersPHD} and it immediately follows since $\initial_{{<}_{v}} (\initial_{v} (g)) = \initial_{{<}_{v}} (g)$ for all $g \in G_{{<}_{v}} (I)$.
+\end{proof}
+
+\begin{corollary}
+If $<$ is a term order and $v \in \mathbb{R}_{\geq 0} ^{n}$ then
+\begin{equation*}
+    \initial_{{<}_{v}} (I) = \initial_{<} (\initial_{v} (I)).
+\end{equation*}
+\end{corollary}
+
+\begin{proof}
+We can use the previous theorem to show that $v \in C_{{<}_{v}} (I)$. We can also use \cite[Lemma 3.1.12]{AndersPHD} to show that $\initial_{{<}_{v}} (I) = \initial_{{<}_{v}} (\initial_{v} (I))$. The Groebner basis $G_{{<}_{v}} (\initial_{v}(I))$ is v-homogeneous, therefore also a Groebner basis with respect to $<$ and with the same initial terms which generate the (initial) ideal $\initial_{{<}_{v}} (\initial_{v} (I)) = \initial_{<} (\initial_{v} (I))$.
+\end{proof}
+
+The condition of $v \in \mathbb{R}_{\geq 0}^{n}$, in the previous Corollary and Lemma, can be replaced with the condition that the ideal $I$ is homogeneous.
+
+\begin{proposition}
+The relative interior of a cone in the Groebner fan is an equivalence class (with respect to $u$ is similar to $u^{'} \Longleftrightarrow \initial_{u} (I) = \initial_{u'} (I)$).
+\end{proposition}
+
+\begin{proof}
+We will take the proof from \cite[Proposition 3.1.16]{AndersPHD}.
+\end{proof}
+
+We still need to show that the intersection of two cones in the Groebner fan is a face of both cones, and to do this we need a few observations.
+
+\begin{corollary}
+Let C be a cone in the Groebner fan. If $v \in C$ then for $u \in \mathbb{R}^{n}$,
+\begin{equation*}
+    \initial_{u} (I) = \initial_{v} (I) \Rightarrow u \in C.
+\end{equation*}
+\end{corollary}
+
+\begin{proof}
+We know that the vector v is in the relative interior of some face of C, and we can also say that this face is also in the Groebner fan. We can use the Proposition above to say that $u$ is in the relative interior of the same face, hence, also in C.
+\end{proof}
+
+From Remark 3.1.2, there are only finitely many initial ideals given by term orders, hence, only finitely many reduced Groebner bases of $I$. Therefore, it follows that there can only be finitely many equivalence classes.
+
+\begin{proposition}
+Let $C_{1}$ and $C_{2}$ be two cones in the Groebner fan of I. Then the intersection $C_{1} \cup C_{2}$ is a face of $C_{1}$.
+\end{proposition}
+
+\begin{proof}
+We will take the proof from \cite[Proposition 3.1.18]{AndersPHD}.
+\end{proof}
+
+\begin{proposition}
+Let $I \subseteq K[x_{1}, \ldots, x_{n}]$ be an ideal and $u, v \in \mathbb{R}^{n}$. Furthermore, suppose that I is homogeneous or $u \in \mathbb{R}_{> 0} ^{n}$. Then for $\epsilon > 0$ sufficiently small:
+\begin{equation*}
+    \initial_{u+ \epsilon v} (I) = \initial_{v} (\initial_{u} (I)).
+\end{equation*}
+\end{proposition}
+
+%Rework this proof if I have time!
+\begin{proof}
+Fix some term order $<$. Note that for $\epsilon > 0$, sufficiently small, we have $u + \epsilon v \in C_({{<}_{v}})_{u} (I)$. This follows from \cite[Corollary 3.1.10]{AndersPHD}, with an argument similar to proof of Lemma 2.2.9. This proposition now follows from \cite[Corollary 3.1.13]{AndersPHD}:
+\begin{equation*}
+    \initial_{u + \epsilon v} (I) = \langle \initial_{u + \epsilon v} (g): g \in G_(<_{v})_{u} (I) \rangle = \langle \initial_{v} (\initial_{u} (g)): g \in G_(<_{v})_{u} (I) \rangle
+\end{equation*}
+\begin{equation*}
+    = \langle \initial_{v} (g): g \in G_{{<}_{v}} (\initial_{u} (I)) \rangle = \initial_{v} (\initial_{u} (I)).
+\end{equation*}
+The second equality holds for $\epsilon > 0$ sufficiently small, since $G_(<_{v})_{u} (I)$ is finite.
+\end{proof}
+
+
+\chapter{Groebner Walks and Variations}
+With the initial groundwork out of the way, we can begin to outline the Groebner Walk and explore variations and improvements of this. In general, the very basis of the Groebner Walk is the movement from one Groebner cone to another, in order to convert a Groebner Basis from one term order to another. There are multiple ways to achieve this and so there are multiple variations on the Groebner Walk. We will first describe the basic algorithm underpinning the Groebner Walk, The Straight Line Walk before moving onto potential variations. 
+
+\section{Extra Preparation}
+We can find a single Groebner cone by Buchberger's algorithm and \cite[Corollary 3.1.10]{AndersPHD} for some term order. Since we have shown that the graph of the Groebner fan of I is connected, we can pick and choose any graph traversal algorithm we want to compute the full dimensional Groebner cones. To do this, we need to be able to find edges (or connecting facets) and we need to find neighbours along an edge.
+
+Throughout the graph enumeration process, we can represent Groebner cones by their marked reduced Groebner bases instead of any other of their qualities such as their inequalities, term orders etc.. The reasoning for doing this is due to the following theorem with proof from \cite[Theorem 4.0.14]{AndersPHD}:
+
+\begin{theorem}
+Let $I \subseteq R = K[x_{1}, \cdots, x_{n}]$ be an ideal. The marked reduced Groebner bases of I, the monomial initial ideals of I (w.r.t positive vectors), and the full-dimensional Groebner cones are in bijection.
+\end{theorem}
+
+\section{Local Change}
+
+Let $G_{<} (I)$ be some marked Groebner basis and F be a flippable facet of $C_{<} (I)$. We let Flip$(G_{<} (I), F)$ denote the unique reduced Groebner basis different from $G_{<} (I)$ whose Groebner cone also has F as a facet. We describe an algorithm for computing this, given $G_{<} (I)$ and an inner normal vector $ \psi \in Link(v)$.
+
+For a marked Groebner basis $G$ and a polynomial f, we let $f^{G}$ denote the normal form of $f$ mod $G$. This normal form only depends on the markings of $G$.
+
+We will now introduce algorithm components consisting of the Polynomial, the Lifting and the Flipping algorithms.
+
+\begin{algorithm}[Witness]\
+ \begin{algorithmic}[1]
+    \REQUIRE{A marked reduced Groebner basis $G_{<} (I)$, v-homogeneous polynomial $g \in \initial_{v} (I)$ where v is some vector in $C_{<}(I)$.}
+    \ENSURE{A polynomial $f \in I$ where $\initial_{v}(f) = g$.}
+    \RETURN{$f := g - g^{G_{<} (I)}$;}
+\end{algorithmic}
+\end{algorithm}
+
+Proof of this can be found at \cite[Algorithm 4.2.1]{AndersPHD}.
+
+\begin{algorithm}[Lifting]\
+ \begin{algorithmic}[1]
+    \REQUIRE{Marked reduced Groebner bases $G_{<} (I), G_{{< '}_{v}}(\initial_{v} (I))$, where $v \in C_{<} (I)$ is some vector, $<$ and ${< '}$ are some term orders.}
+    \ENSURE{The marked reduced Groebner basis $G = G_{{< '}_{v}} (I)$.}
+    \STATE $G := \{g - g^{G_{<} (I)} : g \in G_{{< '}_{v}} (\initial_{v} (I)) \}$;
+    \STATE Mark term $\initial_{{< '}_{v}} (g)$ in each element $g - g^{G_{<} (I)}$ in $G$;
+    \STATE Turn the minimal basis $G$ into a reduced basis;
+    \RETURN{Marked reduced Groebner basis G}
+\end{algorithmic}
+\end{algorithm}
+
+Proof of this can be found at \cite[Algorithm 4.2.2]{AndersPHD}.
+
+\begin{algorithm}[Flipping]\
+ \begin{algorithmic}[1]
+    \REQUIRE{A marked reduced Groebner basis $G_{<} (I)$ with $<$ some term order, any inwards pointing vector $\psi \in Link(v)$ of a flippable facet $F$ of $C_{<} (I)$.}
+    \ENSURE{$G = flip(G_{<} (I), F)$.}
+    \STATE Let $v$ be a positive vector, in relative interior of $F$;
+    \STATE Compute $G_{<} (\initial_{v} (I)) = \{\initial_{v} (g): g \in G_{<} (I)$ \};
+    \STATE Compute marked basis $G_{< - \phi} (\initial_{v} (I))$ from $G_{<} (\initial_{v} (I))$ using Buchberger's Algorithm;
+    \STATE Compute $G := G_{< - \psi_{v}}$ (I) from $G_{<} (I)$ and $G_{< - \psi} (\initial_{v} (I))$ using Algorithm 4.2.2 above;
+    \RETURN{$G$}
+\end{algorithmic}
+\end{algorithm}
+
+Proof of this can be found at \cite[Algorithm 4.2.3]{AndersPHD}
+
+\section{The Straight Line Walk}
+Here, we will use Chapter 3 of \cite{GenericGroebner} as a basis for the rest of the chapter.
+
+To begin, let $<_{1}, <_{2}$ be two term orders and $I$ an ideal in $R$. Suppose we know the reduced Groebner basis $G$ for $I$ over $<_{1}$. If $w \in C_{<_{1}} (I) \cap C_{<_{2}} (I)$ lies on the common face of the two Groebner cones, then $G_{w} = \{ \initial_{w} (g) \vert g \in G \}$ is the reduced Groebner basis for $\initial_{w} (I)$ over $<$. Now a lifting of $G_{w}$ to a Groebner basis for I over $<_{2}$ is required. It involves a Groebner basis computation for $\initial_{w} (I)$ over $<_{2}$. The point of performing this computation is the fact that if $F = C_{<_{1}} (I) \cap C_{<_{2}} (I)$ is a high dimensional face (e.g. a facet) and $w$ is in the relative interior of $F$, the ideal $\initial_{w} (I)$ is close to a monomial ideal and this Groebner basis computation becomes very easy.
+
+Given a term order $<$ and a vector $w \in \mathbb{R}^{n} _{\geq 0}$, we define the new term order $<_{w}$ by $u <_{w} v$ if and only if $\langle u, w \rangle < \langle v, w \rangle$, or $\langle u, w \rangle = \langle v, w \rangle$ and $u < v$.
+
+
+We will recall the following from Chapter 3 in \cite{GenericGroebner}.
+
+Firstly, for an ideal $I \subseteq R$ and $w \in \mathbb{R}_{\geq 0}^{n}$, we have:
+\begin{equation*}
+    \initial_{<} ( \initial_{w} (I)) = \initial_{{<}_{w}} (I)
+\end{equation*}
+
+
+Secondly, let $I \subseteq R$ be an ideal and have two term orders, $<_{1}, <_{2}$ on R. Suppose G is a reduced Groebner basis for $I$ over $<_{1}$. If $w \in C_{<_{1}} (I) \cap C_{<_{2}} (I)$, then:
+
+\begin{itemize}
+    \item The reduced Groebner basis for $\initial_{w} (I)$ over $<_{1}$ is $G_{w} = \{ \initial_{w} (g) | g \in G\}$.
+    \item If $H$ is the reduced Groebner basis for $\initial_{w} (I)$ over $<_{2}$, then $\{ f - f^{G} | f \in H \}$ is a minimal Groebner basis for $I$ over $<_{2w}$. $f^{G}$ is remainder obtained by dividing $f$ modulo $G$.
+    \item The reduced Groebner basis for $I$ over $<_{2w}$ coincides with the reduced Groebner basis for $I$ over $<_{2}$.
+\end{itemize}
+
+We now can outline the Groebner Walk, by sketching a single step of the algorithm. Subsequent steps of the algorithm follow from this single step outline. Suppose $w_{0} \in C_{{<}_{1}} (I), \tau_{0} \in C_{{<}_{2}} (I)$, and G is the reduced Groebner basis for $I$ over $<_{1}$. Now consider the line:
+
+
+\begin{equation*}
+    w(t) = (1-t)w_{0} + t \tau_{0}, 0 \leq t \leq 1
+\end{equation*}
+in the Groebner fan of $I$ from $w_{0}$ to $\tau_{0}$. We know the reduced Groebner basis at $w(0) = w_{0}$ (being G). Consider the "last" $w^{'} = w(t^{'})$ in $C_{{<}_{1}} (I) = C_{{<}_{1}} (G)$. We want $t^{'}$ to satisfy:
+
+
+\begin{enumerate}
+    \item $0 \leq t^{'} \leq 1$.
+    \item $w(t) \in C_{<_{1}} (I)$ for $t \in [0, t^{'}] $ and $ w(t^{'} + \epsilon) \notin C_{<_{1}} (I)$ for every $\epsilon > 0$.
+\end{enumerate}
+
+If no such $t^{'}$ exists, we can say that G is the reduced Groebner basis over $<_{2}$, and so this is our termination point in our algorithm. If $t^{'}$ exists, $w(t^{'})$ is on a proper face of $C_{{<}_{1}} (I)$ and $v \in \partial (G)$ exists with $\langle w (t^{'} + \epsilon), v \rangle < 0$, for $\epsilon > 0$. This implies $\langle \tau_{0}, v \rangle < \langle w_{0}, v \rangle$ which implies $\langle \tau_{0}, v \rangle < 0$.
+
+This shows the procedure for finding $t^{'}$ given G. For $v \in \partial (G)$ satisfying $\langle \tau_{0}, v \rangle < 0$ we solve, for t, $\langle w(t), v \rangle = 0$, which gives:
+
+\begin{equation*}
+    t_{v} = \frac{\langle w_{0}, v \rangle}{\langle w_{0}, v \rangle - \langle \tau_{0}, v \rangle}
+\end{equation*}
+
+The value where $t_{v}$ is minimal is $t^{'}$. In this case $w^{'} = w(t^{'})$ lies on a proper face F of $C_{{<}_{1}} (I)$, and so $w^{'} \in C_{{2}_w^{'}} (I)$. Recall that a marked polynomial is a polynomial with the initial term marked with respect to a term order $<$. For a marked polynomial $f$, $\partial (f)$ is defined similarly to how $\partial _{<} (f)$ is in Chapter 2.2. A marked Groebner basis with respect to a term order $<$ is a Groebner basis over $<$ where all initial terms are marked with respect to $<$. For a Groebner basis we let $\partial (G) = \cup_{f \in G} \partial (f)$.  
+
+We can now formally outline an algorithm for the basic Groebner Walk or The Straight Line Walk. 
+
+
+
+\begin{algorithm}[The Straight Line Walk.]\
+ \begin{algorithmic}[1]
+    \REQUIRE{Marked reduced Groebner basis for I over term order $<_{1}$, a term order $<_{2}$, $w_{0} \in C_{{<}_{1}}$ and $\tau_{0} \in C_{{<}_{2}} (I)$.}
+    \ENSURE Reduced Groebner basis for I over $<_{2}$.
+    \STATE Set $t = - \infty$.
+    \STATE Go to \textbf{Candidates For T}. If $t = \infty$, output G and halt.
+    \STATE Compute generators $\initial^{\zeta} (G) := \{ \initial^{\zeta} (G) | g \in G \}$ for $\initial^{\zeta} (I)$, as $\initial^{\zeta} (g) = a^{u} x^{u} + \sum_{v \in S_{g}} a_{v} x^{v}$, where $S_{g} := \{ v \in supp(g) \setminus {u} | t_{u - v} = t\}$, and $a_{u} x^{u}$ is marked term of $g \in G$.
+    \STATE Compute reduced Groebner basis H for $in_{w} (I)$ over $<_{2}$ and mark H according to $<_{2}$.
+    \STATE Let $H^{'} = \{f - f^{G} | f \in H\}$, and use marking of H to mark H'.
+    \STATE Reduce H' and set G = H'.
+    \STATE Go back to the 2nd step and repeat.
+    \RETURN{Reduced Groebner basis for I over $<_{2}$.}
+\end{algorithmic}
+\end{algorithm}
+
+
+\begin{algorithm}[Candidates For T]\
+ \begin{algorithmic}[1]
+    \STATE Let $V := \{v \in \partial (G) | \langle w_{0}, v \rangle \geq 0$, $\langle \tau_{0}, v \rangle < 0$ and $t \geq t_{v}$ \}, where $t_{v} = \frac{\langle w_{0}, v \rangle}{\langle w_{0}, v \rangle - \langle \tau_{0}, v \rangle}$.
+    \STATE If $V = \empty$, set $t = \infty$ and return.
+    \STATE Let $t :=$ min$\{ t_{v} | v \in V\}$ and return.
+\end{algorithmic}
+\end{algorithm}
+
+
+Note that we have changed the notation for the generators (from $in_{\omega} (v)$ to $in^{\zeta} (v)$ than what is stated in Chapter 3.1 in \cite{GenericGroebner} for a few reasons. Firstly, the switch from subscript to superscript is to distinguish that the definition of initial term in this algorithm is different to how we had defined it in Chapter 2. Secondly, the visual difference between $w$ and $\omega$ is too difficult to discern hence the change from $\omega$ to $\zeta$ to avoid further confusion
+
+In the best case scenario, the line segment $l$ between $w$ and $\tau$, passes solely through a collection of facets ($n-1$ dimensional cones) connecting $C_{<_{1}}$ and $C_{<_{2}}$ by a sequence of full-dimensional cones. However, this is not always the case, and the line segment $l$ may intersect and exit through a lower dimensional face, which is a non-optimal case.
+
+There are a few ways to solve the lower dimensional problem. Firstly, we could generalise Algorithm 4.2.3 (The Flipping algorithm), and accept that the Buchberger computation will be more complicated due to this.
+
+A second way is to introduce explicit numerical perturbation and introduce a small amount of randomness. As long as $\epsilon > 0$ is sufficiently small, we can perturb both the starting and target point, and we can avoid moving through lower dimensional cones in this fashion. However, this has a computational cost of its own, as this explicit perturbation can turn "nice" numbers into much larger fractions that are computationally more expensive to work with.
+
+Both these ``solutions'' to the lower dimensional problem can be implemented, but we will later revisit the Groebner Walk and instead investigate the pertubation method and integrate this into The Straight Line Walk algorithm, to create a Generic Groebner Walk.
+
+\section{Facet Oriented Walk}
+The Facet Oriented Walk attempts to avoid the problems outlined earlier about leaving through lower dimensional cones, by instead placing a greater emphasis on the cones and facets that make up the Groebner fan. To do this, we can explicitly compute each Groebner cone we enter, and then walk over to the facet that is closest to the target ordering that we require.
+
+This avoids walking through lower dimensional faces and reduce the number of steps necessary when performing the walk, circumventing potential issues we identified with the Straight Line Walk. In exchange however, this requires the extra calculation of explicitly computing Groebner cones as well as computing the directional vector to direct the line through cones at each step.
+
+Outline of the walk:
+
+\begin{algorithm}[Facet Oriented Walk]\
+ \begin{algorithmic}[1]
+    \REQUIRE{Marked reduced Groebner basis $G$ for $I$ over term order $<_{1}$, a term order $<_{2}$, $w_{0} \in C_{{<}_{1}}$ and $\tau_{0} \in C_{{<}_{2}} (I)$.}
+    \ENSURE{Reduced Groebner basis for $I$ over $<_{2}$.}
+    %%"Termination step"
+    \WHILE {$G$ is \textbf{not} a Groebner basis with respect to $<_{2}$}
+    %%"Step 1"
+    \STATE {Compute the outer normal vectors of the maximal Groebner cone $C_{<_{1}} (G)$.}
+    \STATE {Go to \textbf{Facet Towards} algorithm, to calculate outer normal vector $u_{i}$.}
+    \STATE {Calculate point $v$ on the facet of $u_{i}$.}
+    %%"Step 2"
+    \STATE {Construct $\initial_{v} (G) = \{ \initial_{v}(g): g \in G \}$.}
+    %%"Step 3"
+    \STATE {Compute Groebner basis of initial ideal $H$ $\initial_{v} (I) = \langle \initial_{v} (G) \rangle$ with respect to the next ordering $<_{2_{v}}$.}
+    %%"Step 4"
+    \STATE {Lift $H$ to a Groebner basis $G'$ of $I$ with respect to $<_{2_{v}}$.}
+    %%"Step 5"
+    \STATE {Set $G = G'$, $<_{1} = <_{2_{v}}$.}
+    \ENDWHILE
+    \RETURN{$G$.}
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[Facet Towards]\
+ \begin{algorithmic}[1]
+    \REQUIRE{Outer facet normals $u_{1}, \cdots, u_{k}$ of a full dimensional polyhedral cone, any target vector $\tau_{0}$.}
+    \ENSURE{Outer facet normal $u_{i}$ that points most in direction of target vector $\tau_{0}$.}
+    \RETURN{Return $u_{i}$ such that $\frac{u_{i}}{\| u_{i} \| \cdot \tau_{0}}$ is maximal.}
+ \end{algorithmic}
+\end{algorithm}
+
+
+
+When implemented into code, this indeed did both avoid lower dimensional faces as well as reduce the typical number of steps required compared to The Straight Line Walk. However, the computational exchange of having to calculate Groebner cones proved to be a poor result, since we end up spending a disproportionate amount of time calculating the facets compared to the flips (on a scale to 10-100 times), which is rather unintuitive initially. We would expect the Groebner basis calculation to remain the most computationally difficult and expensive part of the algorithm, but this is not the case. The sheer number of inequalities defining the Groebner cone as a whole is one of the main reasons why calculating Groebner cones is so difficult.
+
+\section{Generic Groebner Walk}
+In this section we will revisit The Straight Line Walk, and improve it to produce the Generic Groebner Walk, by taking certain "generic" choices of $w_{0}$ and $\tau_{0}$.
+
+
+This pertubation can be thought of as replacing the explicit line with a formal ``fuzzy'' line, a line that uses the previous explicit line as a boundary but extends outward in the $w_{1}$ and $\tau_{1}$ direction. This, in essence, is how we avoid the lower dimensional cone problem, by utilising the fuzzy line if the explicit line enters a lower dimensional face.
+
+For an ideal $I \subseteq R$, let $\partial (I) \subseteq \mathbb Q^n$ denote the union of $\partial_{<} (G)$, where G runs through the finitely many reduced Groebner basis for I. Let $<_{1}$, $<_{2}$ be two term orders given by $w = (w_{1}, \cdots, w_{n})$ and $\tau = (\tau_{1}, \cdots, \tau_{n})$ in $\mathbb Q^n$. Observe that $w_{\eta}$ and $\tau_{\eta}$ are in the interior of Groebner cones $C_{{<}_{1}} (I)$ $C_{{<}_{2}} (I)$ respectively, for $\eta > 0$, sufficiently small. Now define:
+
+\begin{equation*}
+    C_{<_{1}, <_{2}} = \{ v \in \mathbb R^{n} \mid 0 <_{1} \text{and} \: v <_{2} 0 \}
+\end{equation*}
+
+We will explain how to pick appropriate $\delta$ and $\epsilon$ in the following steps.
+
+To begin, define $M_{\tau} = \{ \langle \tau_{i}, u \rangle v \mid \: i = 1, \cdots, n; u, v \in \partial (I) \}$.
+
+There exists $\delta > 0$, sufficiently small, such that:
+\begin{equation*}
+    u <_{1} v \Longleftrightarrow \langle w_{\delta}, u \rangle < \langle w_{\delta}, v \rangle \: \text{for} \: u, v \in M_{\tau}
+\end{equation*}
+
+Now set, for $\delta$ satisfying equation above:
+\begin{equation*}
+    N_{\delta} = \{ \langle w_{\delta}, u \rangle v \: \mid \: u, v \in \partial (I) \}
+\end{equation*}
+
+There exists $\epsilon > 0$, sufficiently small, such that:
+\begin{equation*}
+    u <_{2} v \Longleftrightarrow \langle \tau_{\epsilon}, u \rangle < \langle \tau_{\epsilon}, v \rangle \: \text{for} \: u, v \in N_{\delta}
+\end{equation*}
+
+Suppose we pick $\epsilon$ and $\delta$, satisfying respective equations. If $v \in \partial (I) \cap C_{{<_{1}}, <_{2}}$, we set:
+\begin{equation*}
+    t_{v} = \frac{\langle w_{\delta}, v \rangle}{\langle w_{\delta}, v \rangle - \langle \tau_{\epsilon}, v \rangle} = \frac{1}{1 - \frac{\langle \tau_{\epsilon}, v \rangle} {\langle w_{\delta}, v \rangle }}
+\end{equation*}
+
+If $u, v \in \partial (I) \cap C_{{<_{1}}, <_{2}}$ then $\langle w_{\delta}, u \rangle, \langle w_{\delta}, v \rangle > 0$ and we have the following:
+
+
+\begin{equation*}
+\begin{split}
+    t_{u} < t_{v} &  \Longleftrightarrow \frac{\langle \tau_{\epsilon}, u \rangle}{\langle w_{\delta}, u \rangle} < \frac{\langle \tau_{\epsilon}, v \rangle}{\langle w_{\delta}, v \rangle} \\ & \Longleftrightarrow  \langle \tau_{\epsilon}, \langle w_{\delta}, v \rangle u \rangle < \langle \tau_{\epsilon}, \langle w_{\delta}, u \rangle v \rangle \\ & \Longleftrightarrow  \langle w_{\delta}, v \rangle u <_{2} \langle w_{\delta}, u \rangle v
+\end{split}
+\end{equation*}
+
+To evaluate this $<_{2}$:
+
+\begin{equation*}
+\begin{split}
+     \langle \tau_{i}, \langle  w_{\delta}, v \rangle u \rangle < \langle \tau_{i}, \langle w_{\delta}, u \rangle v \rangle & \Longleftrightarrow \langle w_{\delta}, \langle \tau_{i}, u \rangle v \rangle < \langle w_{\delta}, \langle \tau_{i}, v \rangle u \rangle \\ & \Longleftrightarrow \langle \tau_{i}, u \rangle v <_{1} \langle \tau_{i}, v \rangle u
+\end{split}
+\end{equation*}
+
+for $i = 1, \cdots, n$. Let T denote matrix whose rows are $\tau_{1}, \cdots, \tau_{n}$. By choosing $\delta$ and $\epsilon$ generically, it follows that:
+\begin{equation*}
+    t_{u} < t_{v} \Longleftrightarrow Tuv^{t} <_{1} Tvu^{t}
+\end{equation*}
+$Tuv^{t}$ and $Tvu^{t}$ are $n \times n$ matrices and we need to compare their rows. This comparison is only dependent on term orders $<_{1}$ and $<_{2}$, and does not involve $\epsilon$ or $\delta$. This leads us to defining something called the facet preorder $\prec$ in the following way:
+\begin{equation*}
+    u \prec v \Longleftrightarrow t_{u} < t_{v} \Longleftrightarrow Tuv^{t} \prec_{1} Tvu^{t}
+\end{equation*}
+for $u, v \in \partial (I) \cap C_{{<_{1}, <_{2}}}$
+
+Firstly, note that the facet preorder is a preordering, not an ordering. 
+
+Secondly, note that if $t_{u} = t_{v}$, then $Tuv^{t} = Tvu^{t}$, and since T is an invertible matrix, $uv^{t} = vu^{t}$, which implies $u, v$ are collinear. More specifically, $u$ is a positive multiple of $v$.
+
+
+This ensures that the line $w(t)$ between $w_{\delta}$ and $\tau_{\epsilon}$ intersects cones in Groebner fan in dimension $\geq n - 1$ i.e. facets.
+
+We can integrate this into the Straight Line Walk, and remove numerical dependence on the line $w(t)$.
+
+To see what has changed from the The Straight Line walk, look at Step 3, where the facet preorder is used to construct $S_{g}$, as well as the whole of algorithm ``Candidates For W''.
+
+
+\begin{algorithm}[Generic Groebner Walk]\
+ \begin{algorithmic}[1]
+    \REQUIRE{Marked reduced Groebner basis G for I over term order $<_{1}$ and term order $<_{2}$.}
+    \ENSURE{Reduced Groebner basis for I over $<_{2}$.}
+    \STATE Set $w = - \infty.$
+    \STATE \textbf{CandidatesforW}. If $w = \infty$ output G and halt.
+    \STATE Compute generators $\initial_{w} (G) = \{ \initial^{\zeta} (g) \mid g \in G \} \: \text{for} \: \initial^{\zeta} (g)$ as $\initial^{\zeta} (g) = a^{u} x^{u} + \sum_{v \in S_{g}}$ $a_{v} x^{v}$, where $S_{g} = \{ v \in supp(g) \setminus \{ u \} \: \mid \: u - v \prec w, w \prec u - v \}$ and $a_{u}x^{u}$ is the marked term of $g \in G$.
+    \STATE Compute reduced Groebner basis H for $\initial_{w} (I)$ over $<_{2}$ and mark H according to $<_{2}$.
+    \STATE Let $H^{'} = \{ f - f^{G} \: \mid \: f \in H \}$. Use marking of H to mark $H^{'}$.
+    \STATE Autoreduce $H^{'}$ and set G = $H^{'}$.
+    \STATE Repeat from step 2.
+    \RETURN{Reduced Groebner basis for I over $<_{2}$.}
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[Candidates For W]\
+ \begin{algorithmic}[1]
+    \STATE Let $V := \{ v \in \partial (G) \cap C_{{<_{1}, <_{2}}} \: \mid \: w < v \}$
+    \STATE If $V = \empty$, set $w = \infty$ and return.
+    \STATE Let $w := min_{<} \{ v \: \mid \: v \in V \}$ and return.
+\end{algorithmic}
+\end{algorithm}
+
+
+By integrating this facet preordering as well as the generic choices of $\epsilon$ and $\delta$, this removes potential instability when working with explicit perturbations, yet so ensures that the line never leaves through a lower dimensional face.
+
+
+
+
+\end{document}
