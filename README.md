@@ -1,2 +1,3 @@
-# Master-Thesis-GroebnerBases
-My Masters Thesis written in 2020
+# MasterThesisGroebnerWalk
+* My 2020 Master's Thesis written exploring the Groebner Walk
+* Saved for posterity/preservation, free for anyone to read
